@@ -41,11 +41,21 @@ const getOrders = (req, res, next) => {
   });
 };
 
+const getProduct = (req, res, next) => {
+  const { productId } = req.params;
+  console.log("product id", productId);
+  Product.findById(productId, (product) => {
+    console.log("find prod", product);
+  });
+  res.redirect("/");
+};
+
 export default {
   getProducts,
   getIndex,
   getCard,
   getCheckout,
   getOrders,
+  getProduct,
   products: Product.fetchAllProducts,
 };

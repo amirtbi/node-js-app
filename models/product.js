@@ -21,7 +21,6 @@ class Product {
     this.description = description;
     this.price = price;
     this.imageUrl = imageUrl;
-    this.id = new Date().toDateString();
   }
 
   static savePath() {
@@ -46,6 +45,7 @@ class Product {
     console.log("product id", productId);
   }
   save() {
+    this.id = Math.random().toString();
     const location = path.join(process.cwd(), "data", "products.json");
     getProductsFromFile((products) => {
       products.push(this);
@@ -57,6 +57,13 @@ class Product {
 
   static fetchAllProducts(cb) {
     getProductsFromFile(cb);
+  }
+
+  static findById(id, cb) {
+    getProductsFromFile((products) => {
+      const product = products.find((pr) => pr.id === id);
+      cb(product);
+    });
   }
 }
 
