@@ -2,8 +2,9 @@
 html(lang="en")
 
     include ./share/head.pug
-    link(rel="stylesheet" href="/css/product.css")
+    block styles
 
 body
     include ./share/nav.pug
-    block content
+    main
+        block content

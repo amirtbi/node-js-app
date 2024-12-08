@@ -16,7 +16,9 @@ block content
                             h2.product__price $19.99
                             p.product__description A very interesting book about so many even more interesting things!
                         div.card__actions
-                            form(action="/add-to-cart/1" method="POST")
-                                button.btn(type="submit") Add to carts
+                            button.btn
+                                a(href="/admin/edit-product") Edit
+                            form(method="POST" action="/admin/delete-product")    
+                                button.btn(type="submit") Delete 
             else 
                 h1 No Products Found!  

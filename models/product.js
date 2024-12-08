@@ -16,8 +16,11 @@ const getProductsFromFile = (cb) => {
 };
 
 class Product {
-  constructor(title) {
+  constructor(title, description, price, imageUrl) {
     this.title = title;
+    this.description = description;
+    this.price = price;
+    this.imageUrl = imageUrl;
     this.id = new Date().toDateString();
   }
 
@@ -37,6 +40,10 @@ class Product {
         });
       }
     });
+  }
+
+  static delete(productId) {
+    console.log("product id", productId);
   }
   save() {
     const location = path.join(process.cwd(), "data", "products.json");

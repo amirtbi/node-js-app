@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(process.cwd(), "public")));
 
 app.use("/admin", AdminRouter.router);
-app.use("/shop", shopRouter);
+app.use("/", shopRouter);
 
 app.use(errorControler.getError);
 

@@ -1,17 +1,18 @@
 import express from "express";
 //import path from "path";
 
-import productController from "../controllers/products.js";
+import adminController from "../controllers/admin.js";
 
 const adminRouter = express.Router();
 
-adminRouter.get("/add-product", productController.getAllProducts);
+adminRouter.get("/add-product", adminController.getAddProducts);
 
-adminRouter.post("/add-product", productController.postProduct);
-adminRouter.get("/edit-product", productController.adminProds);
-adminRouter.delete("/edit-product", productController.adminProds);
+adminRouter.post("/add-product", adminController.postAddProduct);
+adminRouter.get("/edit-product", adminController.editProducts);
+adminRouter.get("/products", adminController.getProducts);
+adminRouter.post("/delete-product", adminController.postDeleteProduct);
 
 export default {
   router: adminRouter,
-  products: productController.products,
+  products: adminController.products,
 };
