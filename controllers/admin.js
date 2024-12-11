@@ -13,10 +13,18 @@ const getEditProduct = (req, res, next) => {
   if (!isEditMode) {
     return res.redirect("/");
   }
-  res.render("admin/edit-product", {
-    docTitle: "Edit Product",
-    path: "admin/edit-product",
-    isEdit: isEditMode,
+
+  const { productId } = req.params;
+  Product.findById(productId, (product) => {
+    if (!product) {
+      res.redirect("/");
+    }
+    res.render("admin/edit-product", {
+      docTitle: "Edit Product",
+      path: "admin/edit-product",
+      isEdit: isEditMode,
+      product: product,
+    });
   });
 };
 
