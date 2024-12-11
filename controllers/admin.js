@@ -1,19 +1,22 @@
 import Product from "../models/product.js";
 
 const getAddProducts = (req, res, next) => {
-  res.render("admin/add-product", {
+  res.render("admin/edit-product", {
     docTitle: "Add Product",
     path: "admin/add-product",
   });
 };
 
-const editProducts = (req, res, next) => {
-  Product.fetchAllProducts((products) => {
-    res.render("admin/edit-product", {
-      prods: products,
-      docTitle: "Edit product",
-      path: `admin/edit-product`,
-    });
+const getEditProduct = (req, res, next) => {
+  const isEditMode = !!req.query.edit;
+  console.log("isEdit", isEditMode);
+  if (!isEditMode) {
+    return res.redirect("/");
+  }
+  res.render("admin/edit-product", {
+    docTitle: "Edit Product",
+    path: "admin/edit-product",
+    isEdit: isEditMode,
   });
 };
 
@@ -45,7 +48,7 @@ const postDeleteProduct = (req, res, next) => {
 };
 
 export default {
-  editProducts,
+  getEditProduct,
   postAddProduct,
   getAddProducts,
   getProducts,

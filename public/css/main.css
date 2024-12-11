@@ -15,6 +15,9 @@ main {
   margin: auto;
 }
 
+div.centered{
+  text-align: center;
+}
 form {
   display: inline;
 }

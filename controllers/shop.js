@@ -1,5 +1,5 @@
 import Product from "../models/product.js";
-
+import Cart from "../models/cart.js";
 const getProducts = (req, res, next) => {
   Product.fetchAllProducts((products) => {
     res.render("shop/product-list", {
@@ -20,11 +20,21 @@ const getIndex = (req, res, next) => {
   });
 };
 
-const getCard = (req, res, next) => {
+const getCart = (req, res, next) => {
   res.render("shop/cart", {
     path: "/cart",
     docTitle: "Cart",
   });
+};
+
+const postCart = (req, res, next) => {
+  const productId = req.body.productId;
+  console.log(req.body);
+  Product.findById(productId, (product) => {
+    console.log("find product", product);
+    Cart.addProduct(product.id, product.price);
+  });
+  res.redirect("/cart");
 };
 
 const getCheckout = (req, res, next) => {
@@ -43,19 +53,22 @@ const getOrders = (req, res, next) => {
 
 const getProduct = (req, res, next) => {
   const { productId } = req.params;
-  console.log("product id", productId);
   Product.findById(productId, (product) => {
-    console.log("find prod", product);
+    res.render("shop/product-detail", {
+      product,
+      docTitle: "Product",
+      path: "/products",
+    });
   });
-  res.redirect("/");
 };
 
 export default {
   getProducts,
   getIndex,
-  getCard,
+  getCart,
   getCheckout,
   getOrders,
   getProduct,
+  postCart,
   products: Product.fetchAllProducts,
 };
