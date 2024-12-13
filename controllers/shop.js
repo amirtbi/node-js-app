@@ -23,9 +23,26 @@ const getIndex = (req, res, next) => {
 };
 
 const getCart = (req, res, next) => {
-  res.render("shop/cart", {
-    path: "/cart",
-    docTitle: "Cart",
+  let userCart = [];
+  Cart.getCartItems((carts) => {
+    console.log("cart", carts);
+    Product.fetchAllProducts((products) => {
+      for (const cart of carts.products) {
+        const product = products.find((pr) => pr.id === cart.id);
+        if (product) {
+          userCart.push({
+            ...product,
+            qty: cart.qty,
+          });
+        }
+      }
+      res.render("shop/cart", {
+        path: "/cart",
+        docTitle: "Cart",
+        products: userCart,
+        totalPrice: carts.totalPrice,
+      });
+    });
   });
 };
 

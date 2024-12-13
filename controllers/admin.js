@@ -71,8 +71,9 @@ const postAddProduct = (req, res, next) => {
 
 const postDeleteProduct = (req, res, next) => {
   console.log(req.body);
-
-  res.redirect("/");
+  Product.delete(req.body.productId, () => {
+    res.redirect("/admin/products");
+  });
 };
 
 export default {

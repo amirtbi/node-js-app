@@ -1,5 +1,6 @@
 import path from "path";
 import fs from "fs";
+import Cart from "./cart.js";
 
 const getProductsFromFile = (cb) => {
   const location = path.join(process.cwd(), "data", "products.json");
@@ -43,7 +44,20 @@ class Product {
   }
 
   static delete(productId) {
-    console.log("product id", productId);
+    const location = path.join(process.cwd(), "data", "products.json");
+    this.fetchAllProducts((products) => {
+      const prduct = products.find((pr) => pr.id === productId);
+
+      const updatedProducts = products.filter((pr) => pr.id !== productId);
+      fs.writeFile(location, JSON.stringify(updatedProducts), (e) => {
+        if (e) {
+          console.log("error happened during deletion");
+        } else {
+          Cart.deleteProduct(productId, prduct.price);
+          console.log("Deletion process succeeded");
+        }
+      });
+    });
   }
   save() {
     const location = path.join(process.cwd(), "data", "products.json");

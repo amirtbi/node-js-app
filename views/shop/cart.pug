@@ -1,1 +1,9 @@
 extends ../layout.pug
+
+block content 
+    div 
+        each product in products 
+            h #{product.title}
+            p Price $#{product.price}
+            p Qty: #{product.qty}
+        h TotalPrice: $#{totalPrice}
