@@ -12,5 +12,6 @@ shopRouter.get("/orders", shopController.getOrders);
 shopRouter.get("/products/:productId", shopController.getProduct);
 
 shopRouter.post("/cart", shopController.postCart);
+shopRouter.post("/cart-delete-item", shopController.postDeleteCartItem);
 
 export default shopRouter;

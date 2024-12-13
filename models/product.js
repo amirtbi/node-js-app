@@ -49,6 +49,7 @@ class Product {
       const prduct = products.find((pr) => pr.id === productId);
 
       const updatedProducts = products.filter((pr) => pr.id !== productId);
+
       fs.writeFile(location, JSON.stringify(updatedProducts), (e) => {
         if (e) {
           console.log("error happened during deletion");

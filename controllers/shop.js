@@ -25,7 +25,6 @@ const getIndex = (req, res, next) => {
 const getCart = (req, res, next) => {
   let userCart = [];
   Cart.getCartItems((carts) => {
-    console.log("cart", carts);
     Product.fetchAllProducts((products) => {
       for (const cart of carts.products) {
         const product = products.find((pr) => pr.id === cart.id);
@@ -48,9 +47,7 @@ const getCart = (req, res, next) => {
 
 const postCart = (req, res, next) => {
   const productId = req.body.productId;
-  console.log(req.body);
   Product.findById(productId, (product) => {
-    console.log("find product", product);
     Cart.addProduct(product.id, product.price);
   });
   res.redirect("/cart");
@@ -81,6 +78,14 @@ const getProduct = (req, res, next) => {
   });
 };
 
+const postDeleteCartItem = (req, res, next) => {
+  const { productId } = req.body;
+  Product.findById(productId, (product) => {
+    Cart.deleteProduct(productId, product.price);
+    res.redirect("/cart");
+  });
+};
+
 export default {
   getProducts,
   getIndex,
@@ -90,4 +95,5 @@ export default {
   getProduct,
   postCart,
   products: Product.fetchAllProducts,
+  postDeleteCartItem,
 };
