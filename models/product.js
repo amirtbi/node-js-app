@@ -16,11 +16,12 @@ const getProductsFromFile = (cb) => {
 };
 
 class Product {
-  constructor(title, description, price, imageUrl) {
+  constructor(id, title, description, price, imageUrl) {
     this.title = title;
     this.description = description;
     this.price = price;
     this.imageUrl = imageUrl;
+    this.id = id;
   }
 
   static savePath() {
@@ -45,13 +46,33 @@ class Product {
     console.log("product id", productId);
   }
   save() {
-    this.id = Math.random().toString();
     const location = path.join(process.cwd(), "data", "products.json");
     getProductsFromFile((products) => {
-      products.push(this);
-      fs.writeFile(location, JSON.stringify(products), (e) => {
-        console.log("error", e);
-      });
+      console.log("this", this);
+      if (this.id) {
+        const foundExistedProductIndex = products.findIndex(
+          (pr) => pr.id == this.id
+        );
+        if (foundExistedProductIndex > -1) {
+          const updatedProducts = [...products];
+          updatedProducts[foundExistedProductIndex] = this;
+          fs.writeFile(location, JSON.stringify(updatedProducts), (e) => {
+            if (e) {
+              console.log("Updating product is failed");
+            } else {
+              console.log("Product updated successfully");
+            }
+          });
+        } else {
+          console.log("Product not found!");
+        }
+      } else {
+        this.id = Math.random().toString();
+        products.push(this);
+        fs.writeFile(location, JSON.stringify(products), (e) => {
+          console.log("error", e);
+        });
+      }
     });
   }
 

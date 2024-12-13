@@ -1,5 +1,6 @@
 import Product from "../models/product.js";
 import Cart from "../models/cart.js";
+
 const getProducts = (req, res, next) => {
   Product.fetchAllProducts((products) => {
     res.render("shop/product-list", {
@@ -12,6 +13,7 @@ const getProducts = (req, res, next) => {
 
 const getIndex = (req, res, next) => {
   Product.fetchAllProducts((products) => {
+    console.log("shop", products.length);
     res.render("shop/index", {
       prods: products,
       docTitle: "index",

@@ -14,11 +14,12 @@ block content
                 input(type="text" name="price" id="price" value=`${product ? product.price : ""}`)
             div.form-control
                 label(for="imageUrl") ImageUrl
-                input(type="text" name="imageUrl" id="imageUrl")
+                input(type="text" name="imageUrl" id="imageUrl" value=`${product ? product.imageUrl :""}`)
             div.form-control
                 label(for="description") Description
-                textarea(name="description" id="description" rows="5" value=`${product ? product.description :""}`)
+                textarea(type="hidden" name="description" id="description" rows="5" value=product.description)=product.description
             if isEdit 
+                input(type="hidden" value=product.id name="productId")
                 button.btn(type="submit") Update Product 
             else 
                 button.btn(type="submit") Add Product

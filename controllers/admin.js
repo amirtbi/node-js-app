@@ -9,7 +9,6 @@ const getAddProducts = (req, res, next) => {
 
 const getEditProduct = (req, res, next) => {
   const isEditMode = !!req.query.edit;
-  console.log("isEdit", isEditMode);
   if (!isEditMode) {
     return res.redirect("/");
   }
@@ -19,6 +18,7 @@ const getEditProduct = (req, res, next) => {
     if (!product) {
       res.redirect("/");
     }
+    console.log("product", product);
     res.render("admin/edit-product", {
       docTitle: "Edit Product",
       path: "admin/edit-product",
@@ -26,6 +26,25 @@ const getEditProduct = (req, res, next) => {
       product: product,
     });
   });
+};
+
+const postEditProduct = (req, res, next) => {
+  const productId = req.body.productId;
+  const {
+    title: updatedTitle,
+    imageUrl: updateimageUrl,
+    description: updatedDescription,
+    price: UpdatedPrice,
+  } = req.body;
+  const updatedProduct = new Product(
+    productId,
+    updatedTitle,
+    updatedDescription,
+    UpdatedPrice,
+    updateimageUrl
+  );
+  updatedProduct.save();
+  res.redirect("/admin/products");
 };
 
 const getProducts = (req, res, next) => {
@@ -40,6 +59,7 @@ const getProducts = (req, res, next) => {
 
 const postAddProduct = (req, res, next) => {
   const product = new Product(
+    null,
     req.body.title,
     req.body.description,
     req.body.price,
@@ -61,4 +81,5 @@ export default {
   getAddProducts,
   getProducts,
   postDeleteProduct,
+  postEditProduct,
 };
